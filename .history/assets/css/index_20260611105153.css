@@ -256,8 +256,13 @@ section h2 {
     color: white;
 }
 
+/* ==========================================================
+   BLOQUE RESPONSIVE: AJUSTES PARA DISPOSITIVOS MÓVILES
+   ========================================================== */
 @media (max-width: 768px) {
     
+    /* 1. CORRECCIÓN DEL HEADER (NAVBAR) */
+    /* Cambia el contenedor de horizontal a vertical para que respiren los elementos */
     .header-container, 
     header { 
         flex-direction: column !important;
@@ -266,11 +271,13 @@ section h2 {
         padding: 1rem;
     }
 
+    /* Centra el logo al quedar arriba */
     .logo, .logo h1 {
         text-align: center;
         font-size: 1.4rem;
     }
 
+    /* Hace que la barra de búsqueda ocupe el 100% del ancho abajo del logo */
     .search-container,
     header input[type="text"] {
         width: 100% !important;
@@ -278,6 +285,8 @@ section h2 {
         margin: 0;
     }
 
+    /* 2. OPTIMIZACIÓN DE CONTENEDORES Y MÁRGENES */
+    /* Reduce los espacios acolchados laterales para ganar valiosos píxeles de pantalla */
     .container, 
     main,
     .admin-container {

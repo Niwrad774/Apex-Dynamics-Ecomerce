@@ -42,7 +42,7 @@ export class ProductRepository {
         return allReviews[productId] || this.getDefaultReviews();
     }
 
-    saveReview(productId, reviewDto) {
+    saveReview(productId, reviewDto) {// CONEXIÓN LOCAL: Modifica el estado del LocalStorage inyectando una nueva reseña
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         if (!allReviews[productId]) allReviews[productId] = this.getDefaultReviews();
         

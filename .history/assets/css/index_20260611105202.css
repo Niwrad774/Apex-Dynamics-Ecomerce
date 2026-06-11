@@ -256,8 +256,13 @@ section h2 {
     color: white;
 }
 
+/* ==========================================================
+   BLOQUE RESPONSIVE: AJUSTES PARA DISPOSITIVOS MÓVILES
+   ========================================================== */
 @media (max-width: 768px) {
     
+    /* 1. CORRECCIÓN DEL HEADER (NAVBAR) */
+    /* Cambia el contenedor de horizontal a vertical para que respiren los elementos */
     .header-container, 
     header { 
         flex-direction: column !important;

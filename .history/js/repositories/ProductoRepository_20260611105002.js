@@ -7,14 +7,14 @@ export class ProductRepository {
         
         let products = JSON.parse(localStorage.getItem('products'));
         
-        
+        // INTERCEPCIÓN / LOGICA DE CACHÉ: Si no hay datos locales, nos conectamos a la API externa
         if (!products || products.length === 0) {
             try {
-                
+                // CONEXIÓN DE RED: Consumo de datos crudos externos
                 const response = await fetch(this.apiURL);
                 const data = await response.json();
                 
-                
+                // MAPEO DE DOMINIO: Transformamos los datos de la API al contexto automotriz
                 products = data.map(item => ({
                     id: item.id,
                     title: this.translateToMotorsport(item.title, item.id),
@@ -25,7 +25,8 @@ export class ProductRepository {
                     reviewsCount: item.rating ? item.rating.count : 0
                 }));
 
-                
+                // CONEXIÓN DE PERSISTENCIA: Se guardan localmente para otorgar el control total al Admin
+                // A partir de este commit en el storage, la app deja de depender de la API externa
                 localStorage.setItem('products', JSON.stringify(products));
             } catch (error) {
                 console.error("Error en la conexión con la API, usando fallback local:", error);
@@ -33,16 +34,17 @@ export class ProductRepository {
                 localStorage.setItem('products', JSON.stringify(products));
             }
         }
-        return products; 
+        return products; // Retorna los datos unificados al Servicio o Controlador
     }
 
     getReviewsByProductId(productId) {
-        
+        // CONEXIÓN LOCAL: Recupera el mapa de reseñas persistidas por ID de producto
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         return allReviews[productId] || this.getDefaultReviews();
     }
 
     saveReview(productId, reviewDto) {
+        // CONEXIÓN LOCAL: Modifica el estado del LocalStorage inyectando una nueva reseña
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         if (!allReviews[productId]) allReviews[productId] = this.getDefaultReviews();
         

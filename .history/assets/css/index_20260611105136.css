@@ -256,8 +256,13 @@ section h2 {
     color: white;
 }
 
+/* ==========================================================
+   BLOQUE RESPONSIVE: AJUSTES PARA DISPOSITIVOS MÓVILES
+   ========================================================== */
 @media (max-width: 768px) {
     
+    /* 1. CORRECCIÓN DEL HEADER (NAVBAR) */
+    /* Cambia el contenedor de horizontal a vertical para que respiren los elementos */
     .header-container, 
     header { 
         flex-direction: column !important;
@@ -266,11 +271,13 @@ section h2 {
         padding: 1rem;
     }
 
+    /* Centra el logo al quedar arriba */
     .logo, .logo h1 {
         text-align: center;
         font-size: 1.4rem;
     }
 
+    /* Hace que la barra de búsqueda ocupe el 100% del ancho abajo del logo */
     .search-container,
     header input[type="text"] {
         width: 100% !important;
@@ -278,6 +285,8 @@ section h2 {
         margin: 0;
     }
 
+    /* 2. OPTIMIZACIÓN DE CONTENEDORES Y MÁRGENES */
+    /* Reduce los espacios acolchados laterales para ganar valiosos píxeles de pantalla */
     .container, 
     main,
     .admin-container {
@@ -286,15 +295,18 @@ section h2 {
         gap: 1rem !important;
     }
 
+    /* Si tienes los filtros y el catálogo en un Grid de columnas, haz que se apilen */
     .main-layout-grid,
     .grid-crud {
         grid-template-columns: 1fr !important;
     }
 
+    /* 3. CORRECCIÓN DE TARJETAS DE PRODUCTO E IMÁGENES */
+    /* Asegura que el contenedor gris de la imagen no rompa el texto ni se deforme */
     .product-image-placeholder,
     .card-img-top,
-    div[style*="background-color: #e5e7eb"] { 
-        height: 180px !important; 
+    div[style*="background-color: #e5e7eb"] { /* Selector alternativo si usas estilos inline de color gris */
+        height: 180px !important; /* Altura controlada para móvil */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -303,6 +315,7 @@ section h2 {
         font-size: 0.85rem;
     }
 
+    /* Permite que el texto largo dentro del placeholder gris haga salto de línea en vez de truncarse */
     .product-image-placeholder p,
     div[style*="background-color: #e5e7eb"] {
         white-space: normal !important;
@@ -311,6 +324,7 @@ section h2 {
         text-overflow: clip !important;
     }
 
+    /* Ajusta el tamaño de los botones de la tarjeta para que sean fáciles de presionar con el pulgar */
     .product-card .btn,
     .product-card button {
         padding: 0.75rem !important;

@@ -25,7 +25,8 @@ export class ProductRepository {
                     reviewsCount: item.rating ? item.rating.count : 0
                 }));
 
-                
+                // CONEXIÓN DE PERSISTENCIA: Se guardan localmente para otorgar el control total al Admin
+                // A partir de este commit en el storage, la app deja de depender de la API externa
                 localStorage.setItem('products', JSON.stringify(products));
             } catch (error) {
                 console.error("Error en la conexión con la API, usando fallback local:", error);
@@ -33,16 +34,17 @@ export class ProductRepository {
                 localStorage.setItem('products', JSON.stringify(products));
             }
         }
-        return products; 
+        return products; // Retorna los datos unificados al Servicio o Controlador
     }
 
     getReviewsByProductId(productId) {
-        
+        // CONEXIÓN LOCAL: Recupera el mapa de reseñas persistidas por ID de producto
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         return allReviews[productId] || this.getDefaultReviews();
     }
 
     saveReview(productId, reviewDto) {
+        // CONEXIÓN LOCAL: Modifica el estado del LocalStorage inyectando una nueva reseña
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         if (!allReviews[productId]) allReviews[productId] = this.getDefaultReviews();
         

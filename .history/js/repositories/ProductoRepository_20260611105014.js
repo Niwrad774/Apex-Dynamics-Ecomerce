@@ -33,16 +33,17 @@ export class ProductRepository {
                 localStorage.setItem('products', JSON.stringify(products));
             }
         }
-        return products; 
+        return products; // Retorna los datos unificados al Servicio o Controlador
     }
 
     getReviewsByProductId(productId) {
-        
+        // CONEXIÓN LOCAL: Recupera el mapa de reseñas persistidas por ID de producto
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         return allReviews[productId] || this.getDefaultReviews();
     }
 
     saveReview(productId, reviewDto) {
+        // CONEXIÓN LOCAL: Modifica el estado del LocalStorage inyectando una nueva reseña
         const allReviews = JSON.parse(localStorage.getItem('product_reviews')) || {};
         if (!allReviews[productId]) allReviews[productId] = this.getDefaultReviews();
         
