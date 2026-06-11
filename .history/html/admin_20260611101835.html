@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Paddock Store</title>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>PADDOCK <span>ADMIN</span></h1>
+            </div>
+            <nav class="admin-nav">
+                <a href="cliente.html" class="btn-secondary-outline">Panel Cliente</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        
+        <section class="dashboard-grid">
+            <div class="metric-card">
+                <h3>Total Ingresos Generados</h3>
+                <p id="db-total-revenue" class="metric-value">$0.00</p>
+                <span class="metric-sub">Calculado en tiempo real</span>
+            </div>
+
+            <div class="metric-card">
+                <h3>Control de Usuarios</h3>
+                <p id="db-users-count" class="metric-value">0 / 0</p>
+                <span class="metric-sub">Registrados vs Activos</span>
+            </div>
+
+            <div class="metric-card">
+                <h3>Top 3 Componentes Más Valorados</h3>
+                <ul id="db-top-products" class="top-products-list">
+                    </ul>
+            </div>
+        </section>
+
+        <section class="management-section">
+            <div class="grid-crud">
+                
+                <div class="card-form">
+                    <h2 id="form-title">Registrar Nuevo Componente</h2>
+                    <form id="admin-product-form">
+                        <input type="hidden" id="prod-id">
+
+                        <div class="form-group">
+                            <label for="prod-title">Nombre del Producto</label>
+                            <input type="text" id="prod-title" placeholder="Ej. Pastillas de Freno Brembo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prod-category">Categoría</label>
+                            <select id="prod-category" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option value="frenos">Frenos y Suspensión</option>
+                                <option value="motor">Motor y Rendimiento</option>
+                                <option value="llantas">Llantas y Rines</option>
+                                <option value="electronica">Electrónica F1</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prod-price">Precio ($ USD)</label>
+                            <input type="number" id="prod-price" step="0.01" placeholder="0.00" min="0.8" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prod-desc">Descripción Técnica</label>
+                            <textarea id="prod-desc" rows="4" placeholder="Especificaciones de ingeniería del componente..." required></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Guardar en Inventario</button>
+                            <button type="button" id="btn-cancel-edit" class="btn-cancel" style="display: none;">Cancelar Edición</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-table">
+                    <h2>Gestión de Inventario (CRUD)</h2>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Componente</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="sales-section card-table">
+            <h2>Administración de Ventas e Historial Logístico</h2>
+            <div class="table-responsive">
+                <table class="admin-table sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID Órden</th>
+                            <th>Cliente</th>
+                            <th>Total Facturado</th>
+                            <th>Fecha</th>
+                            <th>Estado de Envío</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-table-body">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="../js/controllers/AdminController.js"></script>
+</body>
+</html>

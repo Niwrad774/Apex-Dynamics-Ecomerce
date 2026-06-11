@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Apex Dynamics</title>
+    <link rel="stylesheet" href="/assets/css/cliente.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">Apex Dynamics</a></div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Buscar componentes...">
+        </div>
+        <nav class="nav-actions">
+            <button id="theme-toggle" class="btn-icon">Tema</button>
+            <button id="cart-toggle" class="btn-icon"><span id="cart-count">0</span>Carrito</button>
+            <a href="#perfil" class="profile-link">Mi Perfil</a>
+            <a href="admin.html" class="admin-link" style="margin-left: 10px; color: #444141; font-weight: bold; text-decoration: none;">A Panel Admin</a>
+        </nav>
+    </header>
+
+    <main class="catalog-layout">
+        <aside class="filters-sidebar">
+            <h3>Filtros</h3>
+            <div class="filter-group">
+                <label for="category-select">Categoría</label>
+                <select id="category-select">
+                    <option value="all">Todas las categorías</option>
+                    <option value="suspension">Suspensión y Dirección</option>
+                    <option value="frenos">Frenos</option>
+                    <option value="motor">Motor y Rendimiento</option>
+                    <option value="telemetria">Electrónica y Telemetría</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price-range">Rango de Precio: $<span id="price-value">1000</span></label>
+                <input type="range" id="price-range" min="0" max="5000" step="50" value="1000">
+            </div>
+            <button id="clear-filters" class="btn-secondary">Limpiar Filtros</button>
+        </aside>
+
+        <section class="products-container" id="products-grid">
+            <article class="product-card" data-category="frenos" data-price="850">
+                <div class="product-img">Frenos de Carbono</div>
+                <div class="product-info">
+                    <h4>Discos de Freno Carbon-Cerámicos</h4>
+                    <p class="price">$850.00</p>
+                    <div class="rating">⭐⭐⭐⭐⭐ (12)</div>
+                    <button class="btn-primary add-to-cart" data-id="1">Agregar al Carrito</button>
+                    <button class="btn-text view-details">Ver Detalles / Reseñas</button>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <aside class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>Tu Paddock (Carrito)</h2>
+            <button id="close-cart" class="btn-icon">✖</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            </div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button id="btn-checkout" class="btn-primary btn-block">Proceder al Pago</button>
+        </div>
+    </aside>
+
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-checkout">&times;</span>
+            <h2>Completar Orden</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label>Nombre en la Tarjeta</label>
+                    <input type="text" required placeholder="Piloto Principal">
+                </div>
+                <div class="form-group">
+                    <label>Número de Tarjeta</label>
+                    <input type="text" required pattern="\d{16}" placeholder="0000 0000 0000 0000">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Vencimiento</label>
+                        <input type="text" required placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" required pattern="\d{3,4}" placeholder="123">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Confirmar Pago</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content product-modal-content">
+            <span class="close-modal" id="close-product">&times;</span>
+            <div class="product-details-layout">
+                <div class="product-details-info">
+                    <h2 id="modal-product-title">Título del Producto</h2>
+                    <p id="modal-product-desc">Descripción detallada del componente...</p>
+                    <p class="price" id="modal-product-price">$0.00</p>
+                </div>
+                <div class="product-reviews-section">
+                    <h3>Reseñas</h3>
+                    <div id="reviews-list" class="reviews-list">
+                        </div>
+                    <form id="review-form" class="review-form">
+                        <h4>Deja tu opinión</h4>
+                        <div class="star-rating">
+                            <label><input type="radio" name="rating" value="1"> 1⭐</label>
+                            <label><input type="radio" name="rating" value="2"> 2⭐</label>
+                            <label><input type="radio" name="rating" value="3"> 3⭐</label>
+                            <label><input type="radio" name="rating" value="4"> 4⭐</label>
+                            <label><input type="radio" name="rating" value="5" checked> 5⭐</label>
+                        </div>
+                        <textarea rows="3" placeholder="¿Qué tal funciona este componente en la pista?" required></textarea>
+                        <button type="submit" class="btn-secondary">Enviar Reseña</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="module" src="/js/controllers/CatalogoController.js"></script>
+
+</html>
