@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Apex Dynamics</title>
     <link rel="stylesheet" href="/assets/css/cliente.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>
     <header class="navbar">
@@ -15,8 +16,10 @@
         <nav class="nav-actions">
             <button id="theme-toggle" class="btn-icon">Tema</button>
             <button id="cart-toggle" class="btn-icon"><span id="cart-count">0</span>Carrito</button>
-            <a href="#perfil" class="profile-link">Mi Perfil</a>
-            <a href="admin.html" class="admin-link" style="margin-left: 10px; color: #444141; font-weight: bold; text-decoration: none;">Panel Admin</a>
+            <span id="user-display" style="color: white; font-weight: 500; font-size: 0.9rem; display: none;"></span>
+            <a href="#" id="auth-nav-btn" style="color: white; text-decoration: none; font-weight: 500;">Iniciar Sesión</a>
+            <a href="admin.html" class="admin-link" style="margin-left: 10px; color: #ff4757; font-weight: bold; text-decoration: none; display: none;">Panel Admin</a>
+            <a href="#" id="logout-btn" style="margin-left: 10px; color: #a4b0be; text-decoration: none; font-size: 0.9rem; display: none;">Cerrar Sesión</a>
         </nav>
     </header>
 

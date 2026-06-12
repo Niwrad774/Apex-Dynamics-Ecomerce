@@ -1,6 +1,14 @@
 import { AdminRepository } from '../repositories/AdminRepository.js';
 import { AdminService } from '../services/AdminService.js';
 import { AdminView } from '../views/AdminView.js';
+import { AuthService } from '../services/AuthService.js';
+
+const authService = new AuthService();
+const currentUser = authService.getCurrentUser();
+if (!currentUser || currentUser.role !== 'Administrador') {
+    alert("Acceso denegado. Se requiere cuenta de Administrador.");
+    window.location.href = "cliente.html";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const adminRepo = new AdminRepository();
@@ -93,6 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     DOM.btnCancelEdit.addEventListener("click", resetForm);
+
+    const logoutBtn = document.getElementById("admin-logout-btn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            authService.logout();
+            alert("Sesión administrativa cerrada.");
+            window.location.href = "cliente.html";
+        });
+    }
 
     function resetForm() {
         DOM.productForm.reset();

@@ -1,13 +1,13 @@
 import { ProductRepository } from '../repositories/ProductoRepository.js';
 import { CartService } from '../services/CartService.js';
 import { CatalogView } from '../views/CatalogoView.js';
+import { AuthService } from '../services/AuthService.js';
+import { AuthView } from '../views/AuthView.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. INICIALIZACIÓN Y CONEXIÓN DE CAPAS OBJETOS
     const productRepo = new ProductRepository();
     const cartService = new CartService();
     
-    // CACHÉ DE ELEMENTOS DEL DOM (Pasados como el mapa de conexiones a la Vista)
     const DOM = {
         productsGrid: document.getElementById("products-grid"),
         searchInput: document.getElementById("search-input"),
@@ -33,10 +33,79 @@ document.addEventListener("DOMContentLoaded", () => {
         modalProductPrice: document.getElementById("modal-product-price"),
         reviewsList: document.getElementById("reviews-list"),
         reviewForm: document.getElementById("review-form"),
-        themeToggle: document.getElementById("theme-toggle")
+        themeToggle: document.getElementById("theme-toggle"),
+        authNavBtn: document.getElementById("auth-nav-btn"),
+        logoutBtn: document.getElementById("logout-btn"),
+        adminLink: document.querySelector(".admin-link"),
+        userDisplay: document.getElementById("user-display")
     };
 
     const view = new CatalogView(DOM);
+    const authService = new AuthService();
+    const authView = new AuthView();
+
+    function renderAuthState() {
+        const user = authService.getCurrentUser();
+        if (user) {
+            if (DOM.userDisplay) {
+                DOM.userDisplay.textContent = `Hola, ${user.username}`;
+                DOM.userDisplay.style.display = "inline";
+            }
+            if (DOM.authNavBtn) DOM.authNavBtn.style.display = "none";
+            if (DOM.logoutBtn) DOM.logoutBtn.style.display = "inline";
+            if (DOM.adminLink) {
+                if (user.role === 'Administrador') {
+                    DOM.adminLink.style.display = "inline-block";
+                } else {
+                    DOM.adminLink.style.display = "none";
+                }
+            }
+        } else {
+            if (DOM.userDisplay) DOM.userDisplay.style.display = "none";
+            if (DOM.authNavBtn) DOM.authNavBtn.style.display = "inline";
+            if (DOM.logoutBtn) DOM.logoutBtn.style.display = "none";
+            if (DOM.adminLink) DOM.adminLink.style.display = "none";
+        }
+    }
+
+    authView.bindEvents(
+        (username, password) => {
+            try {
+                authService.login(username, password);
+                alert(`¡Bienvenido de nuevo, ${username}!`);
+                authView.hide();
+                renderAuthState();
+            } catch (err) {
+                authView.showError(err.message);
+            }
+        },
+        (username, password, role) => {
+            try {
+                authService.register(username, password, role);
+                alert(`Registro exitoso. ¡Bienvenido, ${username}!`);
+                authView.hide();
+                renderAuthState();
+            } catch (err) {
+                authView.showError(err.message);
+            }
+        }
+    );
+
+    if (DOM.authNavBtn) {
+        DOM.authNavBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            authView.show('login');
+        });
+    }
+
+    if (DOM.logoutBtn) {
+        DOM.logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            authService.logout();
+            alert("Sesión finalizada. Redirigiendo...");
+            window.location.reload();
+        });
+    }
 
     let globalProducts = [];
     let selectedProductIdForReview = null;
@@ -118,12 +187,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     DOM.btnCheckout.addEventListener("click", () => {
         if (cartService.getCartItems().length === 0) return alert("Paddock vacío.");
+        if (!authService.isLoggedIn()) {
+            alert("Debes iniciar sesión para proceder al pago.");
+            authView.show('login');
+            return;
+        }
         DOM.checkoutModal.style.display = "flex";
     });
     DOM.closeCheckout.addEventListener("click", () => DOM.checkoutModal.style.display = "none");
 
     DOM.checkoutForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        if (!authService.isLoggedIn()) {
+            DOM.checkoutModal.style.display = "none";
+            alert("Debes iniciar sesión para completar la transacción.");
+            authView.show('login');
+            return;
+        }
         alert("¡Transacción autorizada localmente!");
         cartService.clearCart();
         updateCartState();
@@ -162,6 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         globalProducts = await productRepo.getAllProducts();
         handleFiltering();
         updateCartState();
+        renderAuthState();
         if (localStorage.getItem("theme") === "dark") DOM.themeToggle.click();
     }
 

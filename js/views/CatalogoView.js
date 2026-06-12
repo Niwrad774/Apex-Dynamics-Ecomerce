@@ -15,7 +15,7 @@ export class CatalogView {
             const card = document.createElement("article");
             card.className = "product-card";
             card.innerHTML = `
-                <div class="product-img">${product.title.substring(0, 15)}...</div>
+                <div class="product-img">${product.title}</div>
                 <div class="product-info">
                     <h4>${product.title}</h4>
                     <p class="price">$${product.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
@@ -52,7 +52,7 @@ export class CatalogView {
                     <button class="btn-qty minus" data-id="${item.id}">-</button>
                     <span>${item.quantity}</span>
                     <button class="btn-qty plus" data-id="${item.id}">+</button>
-                    <button class="btn-remove" data-id="${item.id}">🗑️</button>
+                    <button class="btn-remove" data-id="${item.id}">Eliminar</button>
                 </div>
             `;
             this.DOM.cartItemsContainer.appendChild(itemElement);
